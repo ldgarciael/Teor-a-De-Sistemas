@@ -1,0 +1,45 @@
+bool elevadorOcupado = true;
+bool elevadorEnMovimiento = true;
+bool botonPresionado = true;
+
+Console.WriteLine("Desea presionar el boton para llamar al elevador? (si/no)");
+string respuesta = Console.ReadLine();
+if (respuesta.ToLower() == "si")
+{
+    botonPresionado = true;
+    Console.WriteLine("El boton ha sido presionado.");
+    Console.WriteLine("Cuantas personas entraran al elevadpr?");
+int personas;
+personas = Convert.ToInt32(Console.ReadLine());
+if (personas > 0)
+{
+   elevadorOcupado = true;
+
+    Console.WriteLine("El elevador está ocupado.");
+    
+}
+else
+{
+    elevadorOcupado = false;
+    Console.WriteLine("El elevador está vacío.");
+    return;
+}
+Console.WriteLine("Cuantos niveles se movera el elevador?");
+int niveles;
+niveles = Convert.ToInt32(Console.ReadLine());
+if (niveles > 0)
+{
+    elevadorEnMovimiento = true;
+    Console.WriteLine("El elevador está en movimiento.");
+}
+else
+{
+    elevadorEnMovimiento = false;
+    Console.WriteLine("El elevador está detenido.");
+}
+}
+else
+{
+    botonPresionado = false;
+    Console.WriteLine("El boton no ha sido presionado.");
+}
