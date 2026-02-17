@@ -6,14 +6,35 @@ int pesoElevador = 0;
 
 Random random= new Random();
 
-int pesoPorPersona = random.Next(0, 200); 
+int pesoPorPersona = random.Next(5, 200); 
 
 bool sistemaActivo = true;
 
-while (sistemaActivo)
+void RandomNivelesElevador() // Una estabilidad puede ser que no ingrese el numero de piso, sino que el elevador eliga
+{
+    int niveles = random.Next(1, 10); //Indica de que nivel viene el elevador.
+
+    if(niveles > 0 && niveles < 5)
+    {
+        Console.WriteLine("El elevador viene de un nivel bajo.");
+    }
+    else if(niveles >= 5 && niveles < 8)
+    {
+        Console.WriteLine("El elevador viene de un nivel medio.");
+    }
+    else
+    {
+        Console.WriteLine("El elevador viene de un nivel alto.");
+    }
+    
+}
+
+while (sistemaActivo) //Ciclo del sistema del elevador para el usuario.
 {
     Console.WriteLine("Desea presionar el boton para llamar al elevador? (si/no/salir)");
     string respuesta = Console.ReadLine().ToLower();
+
+    RandomNivelesElevador(); //Se llama a la función para saber de qué nivel proviene.
 
     if (respuesta == "salir")
     {
@@ -26,6 +47,7 @@ while (sistemaActivo)
     if (respuesta == "si")
     {
         botonPresionado = true;
+
         Console.WriteLine("El boton ha sido presionado.");
 
         Console.WriteLine("Cuantas personas entraran al elevador?");
@@ -34,10 +56,17 @@ while (sistemaActivo)
         if (personas > 0)
         {
             elevadorOcupado = true;
-            pesoElevador += personas * pesoPorPersona;
+            pesoElevador += personas * pesoPorPersona; //Suma la cantidad de personas para calcular el peso total del elevador.
 
             Console.WriteLine("El elevador esta ocupado.");
             Console.WriteLine("Peso actual del elevador: " + pesoElevador + " kg");
+            //Verificar si el peso excede la capacidad del elevador ya que puede generar inestabilidad en el sistema
+            if(pesoElevador > 500)
+            {
+                Console.WriteLine("El elevador ha excedido su capacidad de peso. No se movera.");
+                continue;
+            }
+
         }
         else
         {
@@ -48,32 +77,23 @@ while (sistemaActivo)
 
         Console.WriteLine("Cuantos niveles se movera el elevador?");
         int niveles = Convert.ToInt32(Console.ReadLine());
-
+        
         if (niveles > 0)
         {
             elevadorEnMovimiento = true;
-            Console.WriteLine("El elevador esta en movimiento.");
+            Console.WriteLine("El elevador esta en movimiento."); //Se desconoce el paradero del elevador, no tiene límite.
         }
         else
         {
             elevadorEnMovimiento = false;
             Console.WriteLine("El elevador esta en reposo.");
         }
-
-        Console.WriteLine("Cuantas personas saldran del elevador?");
-        int salen = Convert.ToInt32(Console.ReadLine());
-
-        if (salen > 0)
-        {
-            pesoElevador -= salen * pesoPorPersona;
-            if (pesoElevador < 0) pesoElevador = 0;
-
-            Console.WriteLine("Peso actualizado del elevador: " + pesoElevador + " kg");
-        }
-
+        //Al momento de no saber si las personas salen o no del elevador, se vuelve inestable el sistema.
+        
         elevadorEnMovimiento = false;
         Console.WriteLine("El elevador vuelve a reposo.");
     }
+    
     else
     {
         botonPresionado = false;
