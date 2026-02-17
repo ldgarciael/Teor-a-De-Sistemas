@@ -1,0 +1,82 @@
+bool elevadorOcupado = false;
+bool elevadorEnMovimiento = false;
+bool botonPresionado = false;
+
+int pesoElevador = 0;
+
+Random random= new Random();
+
+int pesoPorPersona = random.Next(0, 200); 
+
+bool sistemaActivo = true;
+
+while (sistemaActivo)
+{
+    Console.WriteLine("Desea presionar el boton para llamar al elevador? (si/no/salir)");
+    string respuesta = Console.ReadLine().ToLower();
+
+    if (respuesta == "salir")
+    {
+        sistemaActivo = false;
+        Console.WriteLine("Hasta luego");
+        break;
+    }
+
+
+    if (respuesta == "si")
+    {
+        botonPresionado = true;
+        Console.WriteLine("El boton ha sido presionado.");
+
+        Console.WriteLine("Cuantas personas entraran al elevador?");
+        int personas = Convert.ToInt32(Console.ReadLine());
+
+        if (personas > 0)
+        {
+            elevadorOcupado = true;
+            pesoElevador += personas * pesoPorPersona;
+
+            Console.WriteLine("El elevador esta ocupado.");
+            Console.WriteLine("Peso actual del elevador: " + pesoElevador + " kg");
+        }
+        else
+        {
+            elevadorOcupado = false;
+            Console.WriteLine("El elevador esta vacio.");
+            continue;
+        }
+
+        Console.WriteLine("Cuantos niveles se movera el elevador?");
+        int niveles = Convert.ToInt32(Console.ReadLine());
+
+        if (niveles > 0)
+        {
+            elevadorEnMovimiento = true;
+            Console.WriteLine("El elevador esta en movimiento.");
+        }
+        else
+        {
+            elevadorEnMovimiento = false;
+            Console.WriteLine("El elevador esta en reposo.");
+        }
+
+        Console.WriteLine("Cuantas personas saldran del elevador?");
+        int salen = Convert.ToInt32(Console.ReadLine());
+
+        if (salen > 0)
+        {
+            pesoElevador -= salen * pesoPorPersona;
+            if (pesoElevador < 0) pesoElevador = 0;
+
+            Console.WriteLine("Peso actualizado del elevador: " + pesoElevador + " kg");
+        }
+
+        elevadorEnMovimiento = false;
+        Console.WriteLine("El elevador vuelve a reposo.");
+    }
+    else
+    {
+        botonPresionado = false;
+        Console.WriteLine("El boton no ha sido presionado.");
+    }
+}
